@@ -1,0 +1,9 @@
+Sandpie3d TODO
+
+get template HTML
+
+first try processing in JS a 20^3 array
+
+render
+
+turn cube, cube2.js into something that actually creates a cube
