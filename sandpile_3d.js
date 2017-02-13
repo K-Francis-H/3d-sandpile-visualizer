@@ -72,12 +72,23 @@ var FSHADER_SRC =
 window.onload = function(){
 	var canvas = document.getElementById("canvas");
 	canvas.onclick = function(){
-	  if(canvas.mozRequestFullScreen)
+	  if(canvas.mozRequestFullScreen){
 		 canvas.mozRequestFullScreen();
-	  else
+	  }
+	  else{
 		 canvas.webkitRequestFullScreen();
+
+	  }
+	  	onCanvasChange();
+	}
+	function onCanvasChange(){
+		canvas.width = canvas.clientWidth;
+		canvas.height = canvas.clientHeight;
+		gl.viewport(0,0,canvas.width,canvas.height);
+		cam.setShape(80, canvas.width/canvas.height, 0.125, 3000);
 	}
 	var gl = canvas.getContext("webgl2") || canvas.getContext("webgl2-experimental") || canvas.getContext("webgl"); //preserve drawing buffer so we may take pictures
+
 	//TODO error checking
 	gl.enable(gl.DEPTH_TEST);
 	gl.depthFunc(gl.LESS);
@@ -90,7 +101,7 @@ window.onload = function(){
 	var attribs = ['a_Position', 'a_Normal'];
 	prepareProgramVariables(gl, program, uniforms, attribs);
 
-	var eye = new Vector3/*(-25, 11*6, -25);*/(-25, -25, -25);
+	var eye = new Vector3/*(-25, 11*6, -25);*/(-25, -35, -25);
 	var look = new Vector3/*(11*6,11*6,11*6);*/(0,0,0);
 	var up = new Vector3(0,1,0);
 	var cam =  new Camera(eye, look, up);
