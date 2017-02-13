@@ -58,6 +58,7 @@ var VSHADER_SRC =
    '   return mat4( vec4(c1.x, c2.x, c3.x, c4.x), vec4(c1.y, c2.y, c3.y, c4.y), vec4(c1.z, c2.z, c3.z, c4.z), vec4(c1.w, c2.w, c3.w, c4.w) );\n'+
    '}\n';
 
+//TODO in fast rendering mode, the normals dont seem to work... maybe we need to rotate them by the inverse
 
 var FSHADER_SRC = 
 '#ifdef GL_ES\n' +
@@ -111,7 +112,7 @@ window.onload = function(){
 
 
 	//cube.draw(gl, program);
-	var sandpile = new Sandpile3D(11,11,11,24);
+	var sandpile = new Sandpile3D(19,19,14,96);
 	sandpile.initDrawingBuffers(gl, program);
 	sandpile.draw(gl, program);
 	var loopCtl = setInterval(function(){
@@ -119,14 +120,13 @@ window.onload = function(){
 		if(sandpile.update()){
 			gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-			//NOTE uncomment the cam.roll OR cam.slide lines and the gl.uniform... lines in order to add rotation
+			//TODO if you add rotation, get the inverse of model matrix for the vert shader
 			//cam.roll(1);
-
 			//cam.slide(10,0,0);
 			//cam.lookAt(new Vector3(11*6,11*6,11*6));
 
-			//gl.uniformMatrix4fv(program.u_View, gl.FALSE, cam.View);
-			//gl.uniformMatrix4fv(program.u_Projection, gl.FALSE, cam.Projection);
+			gl.uniformMatrix4fv(program.u_View, gl.FALSE, cam.View);
+			gl.uniformMatrix4fv(program.u_Projection, gl.FALSE, cam.Projection);
 
 			sandpile.draw(gl, program);
 		}else{
