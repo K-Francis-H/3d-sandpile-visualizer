@@ -122,28 +122,38 @@ window.onload = function(){
 
 
 	//cube.draw(gl, program);
+
 	var sandpile = new Sandpile3D(11,11,11,24);
 	sandpile.initDrawingBuffers(gl, program);
 	sandpile.draw(gl, program);
-	var loopCtl = setInterval(function(){
-		//console.log("i");
+	var loopCtl = setInterval(renderLoop, 1000/30);
+	
+	function renderLoop(){
 		if(sandpile.update()){
-			gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+				gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-			//NOTE uncomment the cam.roll OR cam.slide lines and the gl.uniform... lines in order to add rotation
-			//cam.roll(1);
+				//NOTE uncomment the cam.roll OR cam.slide lines and the gl.uniform... lines in order to add rotation
+				//cam.roll(1);
 
-			//cam.slide(10,0,0);
-			//cam.lookAt(new Vector3(11*6,11*6,11*6));
+				//cam.slide(10,0,0);
+				//cam.lookAt(new Vector3(11*6,11*6,11*6));
 
-			//gl.uniformMatrix4fv(program.u_View, gl.FALSE, cam.View);
-			//gl.uniformMatrix4fv(program.u_Projection, gl.FALSE, cam.Projection);
+				//gl.uniformMatrix4fv(program.u_View, gl.FALSE, cam.View);
+				//gl.uniformMatrix4fv(program.u_Projection, gl.FALSE, cam.Projection);
 
-			sandpile.draw(gl, program);
-		}else{
-			clearInterval(loopCtl);
-		}
-		
-	}, 1000/30);
+				sandpile.draw(gl, program);
+			}else{
+				clearInterval(loopCtl);
+			}
+	}
+
+	//attach reset listener
+	document.getElementById("reset-button").onclick = function(){
+		clearInterval(loopCtl);
+		sandpile = new Sandpile3D(11,11,11,24);
+		sandpile.initDrawingBuffers(gl, program);
+		sandpile.draw(gl, program);
+		loopCtl = setInterval(renderLoop, 1000/30);
+	};
 
 };
