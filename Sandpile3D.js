@@ -1,4 +1,11 @@
-function Sandpile3D(l,w,h, startHgt){
+/*
+*l : integer
+*w : integer
+*h : integer
+*startHgt : integer
+*isSpired : boolean (whether or not to set all cells to startHgt or just the center) default : false
+*/
+function Sandpile3D(l,w,h, startHgt, isSpired){
 	if(l === undefined || w === undefined || h === undefined){
 		l = w = h = 20;
 	}
@@ -31,12 +38,28 @@ function Sandpile3D(l,w,h, startHgt){
 
 	//setup 3d array
 	var sandpile = [];
-	for(var i=0; i < l; i++){
-		sandpile[i] = [];
-		for(var j=0; j < w; j++){
-			sandpile[i][j] = [];
-			for(var k=0; k < h; k++){
-				sandpile[i][j][k] = START_HGT;
+	if(isSpired){
+		for(var i=0; i < l; i++){
+			sandpile[i] = [];
+			for(var j=0; j < w; j++){
+				sandpile[i][j] = [];
+				for(var k=0; k < h; k++){
+					if(i === Math.floor(l/2) && j === Math.floor(w/2) && k === Math.floor(h/2) )
+						sandpile[i][j][k] = START_HGT;
+					else
+						sandpile[i][j][k] = 0;
+				}
+			}
+		}
+	}
+	else{
+		for(var i=0; i < l; i++){
+			sandpile[i] = [];
+			for(var j=0; j < w; j++){
+				sandpile[i][j] = [];
+				for(var k=0; k < h; k++){
+					sandpile[i][j][k] = START_HGT;
+				}
 			}
 		}
 	}
