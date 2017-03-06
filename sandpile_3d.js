@@ -111,10 +111,20 @@ window.onload = function(){
 			}
 	}
 
+
+
 	//attach reset listener
 	document.getElementById("reset-button").onclick = function(){
 		clearInterval(loopCtl);
-		sandpile = new Sandpile3D(11,11,11,24);
+		let x = document.getElementById("x-dim").value;
+		let y = document.getElementById("y-dim").value;
+		let z = document.getElementById("z-dim").value;
+		if(x === NaN || y === NaN || z === NaN){
+			sandpile = new Sandpile3D(11,11,11,24);
+		}
+		else{
+			sandpile = new Sandpile3D(x,y,z,24);
+		}
 		sandpile.initDrawingBuffers(gl, program);
 		sandpile.draw(gl, program);
 		loopCtl = setInterval(renderLoop, 1000/30);
